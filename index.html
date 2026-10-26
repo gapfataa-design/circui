@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Gran Premio de Sara ♍🏎️✨</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Orbitron:wght@600;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Contenedor de lluvia de estrellas fugaces -->
+  <div class="shooting-stars" id="shootingStars"></div>
+
+  <!-- Contenedor para la gran explosión de estrellas al llegar a la meta -->
+  <div class="meta-explosion-container" id="metaExplosion"></div>
+
+  <!-- Encabezado y Telemetría -->
+  <header class="main-header">
+    <div class="f1-telemetry">
+      <div class="telemetry-box">
+        <span class="label">TIEMPO EN BOXES</span>
+        <span class="value">6 AÑOS</span>
+      </div>
+      <div class="telemetry-box highlight">
+        <span class="label">ESTADO</span>
+        <span class="value" id="raceStatus">EN VIVO 🟢</span>
+      </div>
+      <div class="telemetry-box">
+        <span class="label">PILOTO</span>
+        <span class="value">SARA ♍</span>
+      </div>
+    </div>
+    <h1>CIRCUITO MÍSTICO DE VIRGO</h1>
+    <p>Para mi niña Sara — La carrera más esperada de mi vida ✨</p>
+  </header>
+
+  <!-- Semáforo F1 de Inicio -->
+  <div class="f1-lights-overlay" id="f1Overlay">
+    <div class="lights-container">
+      <div class="light" id="l1"></div>
+      <div class="light" id="l2"></div>
+      <div class="light" id="l3"></div>
+      <div class="light" id="l4"></div>
+      <div class="light" id="l5"></div>
+    </div>
+    <p class="start-text" id="startText">Preparando monoplaza en la parrilla...</p>
+    <button class="btn-start" onclick="iniciarGranPremio()">APAGAR LUCES Y ARRANCAR 🏎️💨</button>
+  </div>
+
+  <!-- Mapa del Circuito / Constelación -->
+  <main class="constellation-container" id="constellationMap">
+    
+    <div class="virgo-symbol">♍</div>
+
+    <!-- Curvas / Estrellas del Circuito -->
+    <div class="star curve-1" id="node-0">
+      <div class="star-glow"></div>
+      <span class="star-name">Curva 1: Spica</span>
+    </div>
+
+    <div class="star curve-2" id="node-1">
+      <div class="star-glow"></div>
+      <span class="star-name">Curva 2: Zavijava</span>
+    </div>
+
+    <div class="star curve-3" id="node-2">
+      <div class="star-glow"></div>
+      <span class="star-name">Curva 3: Porrima</span>
+    </div>
+
+    <div class="star curve-4" id="node-3">
+      <div class="star-glow"></div>
+      <span class="star-name">Curva 4: Heze</span>
+    </div>
+
+    <div class="star curve-5" id="node-4">
+      <div class="star-glow"></div>
+      <span class="star-name">Curva 5: Vindemiatrix (Meta 🏁)</span>
+    </div>
+
+    <!-- El Auto de F1 que se desplaza -->
+    <div class="f1-car" id="f1Car">🏎️</div>
+
+    <!-- Trazado de las líneas del circuito -->
+    <svg class="constellation-lines">
+      <polyline points="120,320 225,240 365,200 440,310 505,150" fill="none" stroke="rgba(186, 104, 200, 0.35)" stroke-width="3" stroke-dasharray="6"/>
+    </svg>
+  </main>
+
+  <!-- Modal / Tarjeta de Telemetría Romántica -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="tarot-card">
+      <div class="card-border">
+        <div class="card-corner top-left">♍</div>
+        <div class="card-corner top-right">🏎️</div>
+        
+        <h2 id="cardTitle">Título</h2>
+        <div class="divider">✦ 🏁 ✦</div>
+        <p id="cardMessage">Mensaje...</p>
+        
+        <div class="card-signature">❤️❤️❤️</div>
+        <button id="btnNext" onclick="siguienteCurva()">SIGUIENTE TRAMO ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Generador dinámico de lluvia de estrellas fugaces
+    function crearEstrellaFugaz() {
+      const container = document.getElementById('shootingStars');
+      const star = document.createElement('div');
+      star.classList.add('shooting-star');
+      
+      star.style.top = Math.random() * 50 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+      star.style.animationDelay = Math.random() * 2 + 's';
+      
+      container.appendChild(star);
+      
+      setTimeout(() => {
+        star.remove();
+      }, 3000);
+    }
+
+    setInterval(crearEstrellaFugaz, 400);
+
+    // Función para crear la explosión de estrellas en la meta
+    function explosionEstrellasMeta() {
+      const container = document.getElementById('metaExplosion');
+      const starIcons = ['✨', '⭐', '🌟', '💫', '💖', '🥇', '👑', '🏁'];
+      
+      for (let i = 0; i < 70; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('meta-particle');
+        particle.innerText = starIcons[Math.floor(Math.random() * starIcons.length)];
+        
+        // Posicionamiento de origen cerca de la curva 5 / meta
+        particle.style.left = '78%';
+        particle.style.top = '32%';
+        
+        // Ángulos y distancias aleatorias
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 400 + 100;
+        const tx = Math.cos(angle) * velocity + 'px';
+        const ty = Math.sin(angle) * velocity + 'px';
+        
+        particle.style.setProperty('--tx', tx);
+        particle.style.setProperty('--ty', ty);
+        particle.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+        particle.style.animationDuration = (Math.random() * 1.2 + 1.2) + 's';
+        
+        container.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 2500);
+      }
+    }
+
+    const checkpoints = [
+      {
+        title: "Curva 1: Spica (La Pole Position)",
+        message: "Spica es la estrella más brillante de Virgo. Así como esta luz guía el cielo nocturno, tú volviste a iluminar mi mundo después de años de silencio y distancia.",
+        x: 120, y: 320
+      },
+      {
+        title: "Curva 2: Zavijava (El Punto de Frenada)",
+        message: "Perdí la cuenta de las veces que me dio miedo hablarte tras tanto tiempo. Pero en esta curva supe que arriesgarme valía cada segundo.",
+        x: 225, y: 240
+      },
+      {
+        title: "Curva 3: Porrima (Zona DRS)",
+        message: "Me fascina tu mente profunda, tu amor por la oscuridad y los misterios del universo. Conocer tu lado místico es mi parte favorita de esta carrera.",
+        x: 365, y: 200
+      },
+      {
+        title: "Curva 4: Heze (La Curva Cerrada)",
+        message: "A veces la vida nos pone chicanas difíciles, como esos años separados. Pero el destino siempre supo reconducir nuestro camino hacia el mismo carril.",
+        x: 440, y: 310
+      },
+      {
+        title: "Curva 5: Vindemiatrix (La Meta 🏁)",
+        message: "Cruzamos la bandera a cuadros. Esta no es una victoria cualquiera, es el inicio de nuestra mejor temporada juntos, mi niña bonita. ¡Te quiero!",
+        x: 505, y: 150
+      }
+    ];
+
+    let currentCheckpoint = 0;
+    const car = document.getElementById('f1Car');
+
+    function iniciarGranPremio() {
+      const lights = [document.getElementById('l1'), document.getElementById('l2'), document.getElementById('l3'), document.getElementById('l4'), document.getElementById('l5')];
+      const startText = document.getElementById('startText');
+      const btn = document.querySelector('.btn-start');
+
+      btn.style.display = 'none';
+      startText.innerText = "Semáforo encendiéndose...";
+
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index < 5) {
+          lights[index].classList.add('on');
+          index++;
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            lights.forEach(l => l.classList.remove('on'));
+            startText.innerText = "¡LIGHTS OUT AND AWAY WE GO! 🏎️💨";
+            startText.style.color = "#00e676";
+            
+            document.getElementById('raceStatus').innerText = "EN PISTA 🏎️";
+
+            setTimeout(() => {
+              document.getElementById('f1Overlay').classList.add('fade-out');
+              moverAutoA(0);
+            }, 1000);
+          }, 1200);
+        }
+      }, 600);
+    }
+
+    function moverAutoA(index) {
+      if (index >= checkpoints.length) return;
+      currentCheckpoint = index;
+      
+      const cp = checkpoints[index];
+      car.style.left = cp.x + 'px';
+      car.style.top = cp.y + 'px';
+
+      document.querySelectorAll('.star').forEach((s, i) => {
+        if(i === index) s.classList.add('active-star');
+        else s.classList.remove('active-star');
+      });
+
+      // Si es el punto final (La Meta), activar la gran explosión de estrellas
+      if (index === checkpoints.length - 1) {
+        setTimeout(() => {
+          explosionEstrellasMeta();
+        }, 800);
+      }
+
+      setTimeout(() => {
+        document.getElementById('cardTitle').innerText = cp.title;
+        document.getElementById('cardMessage').innerText = cp.message;
+        
+        const btnNext = document.getElementById('btnNext');
+        if(index === checkpoints.length - 1) {
+          btnNext.innerText = "¡CARRERA FINALIZADA 🏆❤️!";
+        } else {
+          btnNext.innerText = "SIGUIENTE TRAMO ➡️";
+        }
+
+        document.getElementById('modalOverlay').classList.add('active');
+      }, 1200);
+    }
+
+    function siguienteCurva() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      
+      const nextIndex = currentCheckpoint + 1;
+      if (nextIndex < checkpoints.length) {
+        moverAutoA(nextIndex);
+      } else {
+        document.getElementById('raceStatus').innerText = "PODIO ALCANZADO 🥇";
+        explosionEstrellasMeta(); // Otra ráfaga de estrellas al finalizar
+      }
+    }
+  </script>
+</body>
+</html>
